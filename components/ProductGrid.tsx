@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   usePathname,
   useRouter,
@@ -24,7 +24,7 @@ const filters = [
   { id: "windcheater", label: "Outerwear" },
 ];
 
-export default function ProductGrid() {
+function ProductGridContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,7 +35,6 @@ export default function ProductGrid() {
   const [activeFilter, setActiveFilter] =
     useState(categoryFromUrl);
 
-  // URL change hone par active filter update karo
   useEffect(() => {
     const validCategory = filters.some(
       (filter) => filter.id === categoryFromUrl,
@@ -48,7 +47,6 @@ export default function ProductGrid() {
     }
   }, [categoryFromUrl]);
 
-  // Filter products
   const filteredProducts = useMemo(() => {
     if (activeFilter === "all") {
       return products;
@@ -60,7 +58,6 @@ export default function ProductGrid() {
     );
   }, [activeFilter]);
 
-  // Filter click
   const handleFilterChange = (category: string) => {
     setActiveFilter(category);
 
@@ -85,11 +82,9 @@ export default function ProductGrid() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-
       {/* FILTERS */}
       <div className="mb-10 overflow-x-auto pb-3">
         <div className="flex min-w-max gap-3">
-
           {filters.map((filter) => {
             const isActive =
               activeFilter === filter.id;
@@ -122,13 +117,11 @@ export default function ProductGrid() {
               </button>
             );
           })}
-
         </div>
       </div>
 
       {/* RESULT COUNT */}
       <div className="mb-7 flex items-center justify-between">
-
         <p className="text-sm text-gray-500">
           Showing{" "}
           <span className="font-bold text-gray-900">
@@ -140,12 +133,10 @@ export default function ProductGrid() {
         <p className="hidden text-sm text-gray-400 sm:block">
           AR Trading & Suppliers
         </p>
-
       </div>
 
       {/* PRODUCT GRID */}
       {filteredProducts.length > 0 ? (
-
         <div
           className="
             grid
@@ -163,10 +154,7 @@ export default function ProductGrid() {
             />
           ))}
         </div>
-
       ) : (
-
-        /* NO PRODUCTS */
         <div
           className="
             rounded-2xl
@@ -208,9 +196,48 @@ export default function ProductGrid() {
             View All Products
           </button>
         </div>
-
       )}
-
     </section>
+  );
+}
+
+function ProductGridLoading() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mb-10 flex gap-3 overflow-hidden">
+        {filters.slice(0, 5).map((filter) => (
+          <div
+            key={filter.id}
+            className="h-12 min-w-32 animate-pulse rounded-full bg-gray-100"
+          />
+        ))}
+      </div>
+
+      <div className="mb-7 h-5 w-40 animate-pulse rounded bg-gray-100" />
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <div
+            key={index}
+            className="overflow-hidden rounded-2xl border border-gray-200 bg-white"
+          >
+            <div className="h-72 animate-pulse bg-gray-100" />
+            <div className="space-y-3 p-5">
+              <div className="h-5 w-3/4 animate-pulse rounded bg-gray-100" />
+              <div className="h-4 w-1/2 animate-pulse rounded bg-gray-100" />
+              <div className="h-10 w-full animate-pulse rounded-xl bg-gray-100" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function ProductGrid() {
+  return (
+    <Suspense fallback={<ProductGridLoading />}>
+      <ProductGridContent />
+    </Suspense>
   );
 }
