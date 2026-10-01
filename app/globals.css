@@ -2,25 +2,349 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+
+  --brand-red: #ed1c24;
+  --brand-red-dark: #d71920;
+
+  --brand-dark: #06131b;
+  --brand-dark-2: #0b1c26;
+
+  --border: #e5e7eb;
+  --muted: #6b7280;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
 }
 
 body {
+  margin: 0;
+  min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------
+   Selection
+--------------------------------- */
+
+::selection {
+  background: var(--brand-red);
+  color: #ffffff;
+}
+
+/* --------------------------------
+   Scrollbar
+--------------------------------- */
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-red);
+}
+
+/* --------------------------------
+   Links & Buttons
+--------------------------------- */
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* --------------------------------
+   Images
+--------------------------------- */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img,
+button,
+a {
+  user-select: none;
+}
+
+/* --------------------------------
+   Form Elements
+--------------------------------- */
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* --------------------------------
+   Premium Utility Classes
+--------------------------------- */
+
+.text-brand-red {
+  color: var(--brand-red);
+}
+
+.bg-brand-red {
+  background-color: var(--brand-red);
+}
+
+.bg-brand-dark {
+  background-color: var(--brand-dark);
+}
+
+.border-brand-red {
+  border-color: var(--brand-red);
+}
+
+/* --------------------------------
+   Premium Card
+--------------------------------- */
+
+.premium-card {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 30px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(237, 28, 36, 0.25);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(237, 28, 36, 0.05);
+}
+
+/* --------------------------------
+   Premium Button
+--------------------------------- */
+
+.premium-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  min-height: 46px;
+  padding: 0.75rem 1.25rem;
+
+  border-radius: 0.75rem;
+
+  background: var(--brand-red);
+  color: #ffffff;
+
+  font-size: 0.875rem;
+  font-weight: 800;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.premium-button:hover {
+  background: var(--brand-red-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(237, 28, 36, 0.2);
+}
+
+.premium-button:active {
+  transform: translateY(0);
+}
+
+/* --------------------------------
+   Section Heading
+--------------------------------- */
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  color: var(--brand-red);
+
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-label::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--brand-red);
+}
+
+/* --------------------------------
+   Dark Section
+--------------------------------- */
+
+.dark-section {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(237, 28, 36, 0.1),
+      transparent 35%
+    ),
+    var(--brand-dark);
+  color: #ffffff;
+}
+
+/* --------------------------------
+   Subtle Grid Background
+--------------------------------- */
+
+.grid-background {
+  background-image:
+    linear-gradient(
+      rgba(6, 19, 27, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(6, 19, 27, 0.04) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+}
+
+/* --------------------------------
+   Red Glow
+--------------------------------- */
+
+.red-glow {
+  box-shadow:
+    0 0 0 1px rgba(237, 28, 36, 0.08),
+    0 15px 45px rgba(237, 28, 36, 0.08);
+}
+
+/* --------------------------------
+   Image Hover
+--------------------------------- */
+
+.image-hover {
+  overflow: hidden;
+}
+
+.image-hover img {
+  transition: transform 0.6s ease;
+}
+
+.image-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* --------------------------------
+   Line Clamp
+--------------------------------- */
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* --------------------------------
+   Smooth Page Transitions
+--------------------------------- */
+
+main {
+  min-height: 50vh;
+}
+
+/* --------------------------------
+   Mobile Improvements
+--------------------------------- */
+
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* --------------------------------
+   Reduced Motion
+--------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
