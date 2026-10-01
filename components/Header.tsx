@@ -167,36 +167,60 @@ export default function Header() {
           <div className="border-t border-gray-200 bg-white lg:hidden">
             <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
               <div className="space-y-1">
-                {navigation.map((item) => (
-                  <div key={item.label}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-[#111827] transition hover:bg-red-50 hover:text-[#ed1c24]"
-                    >
-                      <span>{item.label}</span>
+                {navigation.map((item) => {
+                  const hasDropdown =
+                    !!item.dropdown && item.dropdown.length > 0;
 
-                      {item.dropdown && item.dropdown.length > 0 && (
-                        <ChevronDown size={17} className="text-gray-400" />
+                  return (
+                    <div key={item.label}>
+                      {/* Items with direct href */}
+                      {item.href ? (
+                        <Link
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-[#111827] transition hover:bg-red-50 hover:text-[#ed1c24]"
+                        >
+                          <span>{item.label}</span>
+
+                          {hasDropdown && (
+                            <ChevronDown
+                              size={17}
+                              className="text-gray-400"
+                            />
+                          )}
+                        </Link>
+                      ) : (
+                        /* Dropdown-only items */
+                        <div className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold text-[#111827]">
+                          <span>{item.label}</span>
+
+                          {hasDropdown && (
+                            <ChevronDown
+                              size={17}
+                              className="text-gray-400"
+                            />
+                          )}
+                        </div>
                       )}
-                    </Link>
 
-                    {item.dropdown && item.dropdown.length > 0 && (
-                      <div className="ml-4 border-l border-gray-200 pl-3">
-                        {item.dropdown.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-[#ed1c24]"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {/* Dropdown Items */}
+                      {hasDropdown && (
+                        <div className="ml-4 border-l border-gray-200 pl-3">
+                          {item.dropdown!.map((child) => (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              onClick={() => setMobileOpen(false)}
+                              className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-[#ed1c24]"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Mobile Contact */}
